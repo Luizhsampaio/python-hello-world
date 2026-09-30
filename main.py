@@ -1,27 +1,45 @@
-# Importa as classes necessárias para criar um servidor HTTP simples em Python.
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from threading import Event, Thread
 
-# Define um manipulador de requisições HTTP.
-# Ele herda de BaseHTTPRequestHandler e responde às requisições GET.
-class HelloWorldHandler(BaseHTTPRequestHandler):
-    # Este método é chamado quando o servidor recebe uma requisição GET.
+class HelloWorldHandler_01(BaseHTTPRequestHandler):
+    # Responde às requisições GET com a primeira página de exemplo.
     def do_GET(self):
         self.send_response(200)
         self.send_header("Content-type", "text/html; charset=utf-8")
         self.end_headers()
-        response = b"<html><body><h1>Hello World</h1></body></html>"
+        response = b"<html><body><h1>Hello World 1</h1></body></html>"
         self.wfile.write(response)
 
-    # Sobrescreve o método que registra mensagens de log do servidor.
+    # Desativa os logs padrão de acesso do servidor.
     def log_message(self, format, *args):
         pass
 
-# Bloco principal: executa apenas quando o arquivo é rodado diretamente.
-# Inicializa e executa o servidor HTTP.
+class HelloWorldHandler_02(BaseHTTPRequestHandler):
+    # Responde às requisições GET com a segunda página de exemplo.
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/html; charset=utf-8")
+        self.end_headers()
+        response = b"<html><body><h1>Hello World 2</h1></body></html>"
+        self.wfile.write(response)
+
+    # Desativa os logs padrão de acesso do servidor.
+    def log_message(self, format, *args):
+        pass    
+
 if __name__ == "__main__":
-    # Cria um servidor HTTP ouvindo em todas as interfaces da máquina na porta 8001.
-    server = HTTPServer(("0.0.0.0", 8001), HelloWorldHandler)
-    # Exibe a URL onde o servidor está disponível.
-    print("Servidor em http://localhost:8001")
-    # Mantém o servidor em execução aguardando requisições.
-    server.serve_forever()
+    # Cada servidor usa uma porta e um handler próprios.
+    server_01 = HTTPServer(("0.0.0.0", 8001), HelloWorldHandler_01)
+    server_02 = HTTPServer(("0.0.0.0", 8002), HelloWorldHandler_02)
+
+    # Executa cada servidor em sua própria thread dedicada.
+    Thread(target=server_01.serve_forever, daemon=True).start()
+    Thread(target=server_02.serve_forever, daemon=True).start()
+    print("Servidor 1 em http://localhost:8001")
+    print("Servidor 2 em http://localhost:8002")
+
+    try:
+        Event().wait()
+    except KeyboardInterrupt:
+        server_01.shutdown()
+        server_02.shutdown()
