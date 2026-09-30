@@ -1,7 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from threading import Event, Thread
 
-
 class HelloWorldHandler_01(BaseHTTPRequestHandler):
     # Responde às requisições GET com a primeira página de exemplo.
     def do_GET(self):
@@ -27,7 +26,6 @@ class HelloWorldHandler_02(BaseHTTPRequestHandler):
     # Desativa os logs padrão de acesso do servidor.
     def log_message(self, format, *args):
         pass    
-
 
 if __name__ == "__main__":
     # Cada servidor usa uma porta e um handler próprios.
