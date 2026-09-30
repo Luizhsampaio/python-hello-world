@@ -16,8 +16,8 @@ class HelloWorldHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         pass
 
-
 # Bloco principal: executa apenas quando o arquivo é rodado diretamente.
+# Inicializa e executa o servidor HTTP.
 if __name__ == "__main__":
     # Cria um servidor HTTP ouvindo em todas as interfaces da máquina na porta 8001.
     server = HTTPServer(("0.0.0.0", 8001), HelloWorldHandler)
