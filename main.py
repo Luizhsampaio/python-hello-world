@@ -6,19 +6,13 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 class HelloWorldHandler(BaseHTTPRequestHandler):
     # Este método é chamado quando o servidor recebe uma requisição GET.
     def do_GET(self):
-        # Envia o código de status HTTP 200, indicando sucesso.
         self.send_response(200)
-        # Informa ao cliente que o conteúdo retornado será HTML.
         self.send_header("Content-type", "text/html; charset=utf-8")
-        # Finaliza os cabeçalhos da resposta.
         self.end_headers()
-        # Cria a página HTML que será enviada ao navegador.
         response = b"<html><body><h1>Hello World</h1></body></html>"
-        # Escreve a resposta no fluxo de saída do servidor.
         self.wfile.write(response)
 
     # Sobrescreve o método que registra mensagens de log do servidor.
-    # Como não queremos logs no console, ele simplesmente não faz nada.
     def log_message(self, format, *args):
         pass
 
