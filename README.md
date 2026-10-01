@@ -1,25 +1,27 @@
 # Python Hello World
 
-Exemplo simples de dois servidores HTTP executados simultaneamente com Python.
-O projeto usa apenas módulos da biblioteca padrão, sem dependências externas.
+Aplicação HTTP simples, implementada com módulos da biblioteca padrão do Python.
+A versão atual inicia um servidor na porta 80 e apresenta diferentes páginas de
+acordo com a rota acessada.
 
-## Servidores
+## Rotas
 
-Cada servidor possui uma porta e uma resposta diferentes:
+| Endereço | Resposta |
+| --- | --- |
+| `http://localhost/` | Página inicial com links para as páginas Hello World |
+| `http://localhost/hello` | Página inicial (alias de `/`) |
+| `http://localhost/1` | Hello World 1 (v1.3.0) |
+| `http://localhost/hello1` | Hello World 1 (alias de `/1`) |
+| `http://localhost/2` | Hello World 2 (v1.3.0) |
+| `http://localhost/hello2` | Hello World 2 (alias de `/2`) |
 
-| Servidor | Endereço | Resposta |
-| --- | --- | --- |
-| Servidor 1 | http://localhost:8001 | Hello World 1 |
-| Servidor 2 | http://localhost:8002 | Hello World 2 |
-
-Os servidores são executados em threads dedicadas. A thread principal permanece
-ativa aguardando o encerramento do programa.
+Rotas não reconhecidas retornam o status HTTP `404`.
 
 ## Estrutura do projeto
 
-- `main.py`: inicia os dois servidores e controla suas threads.
-- `server_factory.py`: cria os servidores HTTP e associa cada handler à sua porta.
-- `hello_world_handlers.py`: define as respostas HTML dos dois servidores.
+- `main.py`: cria e inicia o servidor HTTP.
+- `server_factory.py`: configura o servidor e associa o handler de roteamento.
+- `hello_world_handlers.py`: implementa as respostas HTML e o roteamento.
 - `.gitignore`: ignora caches, ambientes virtuais e arquivos locais do projeto.
 
 ## Como executar
@@ -30,12 +32,11 @@ ativa aguardando o encerramento do programa.
 python main.py
 ```
 
-Depois, abra os endereços dos servidores no navegador.
+O servidor será iniciado em `http://localhost` e ficará ativo até receber uma
+interrupção. A aplicação usa a porta 80, que pode já estar ocupada ou exigir
+permissões elevadas dependendo do sistema. Para usar outra porta, altere o
+argumento `port` na chamada a `create_server` em `main.py`.
 
 ## Como parar
 
-No mesmo terminal em que o programa está rodando, pressione `Ctrl+C`. Os dois
-servidores serão encerrados de forma controlada.
-
-Fechar o terminal também encerra o processo Python e, consequentemente, os
-servidores.
+Pressione `Ctrl+C` no terminal em que o servidor está rodando.
