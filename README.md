@@ -15,6 +15,13 @@ Cada servidor possui uma porta e uma resposta diferentes:
 Os servidores são executados em threads dedicadas. A thread principal permanece
 ativa aguardando o encerramento do programa.
 
+## Estrutura do projeto
+
+- `main.py`: inicia os dois servidores e controla suas threads.
+- `server_factory.py`: cria os servidores HTTP e associa cada handler à sua porta.
+- `hello_world_handlers.py`: define as respostas HTML dos dois servidores.
+- `.gitignore`: ignora caches, ambientes virtuais e arquivos locais do projeto.
+
 ## Como executar
 
 É necessário ter o Python instalado. No terminal, execute:
